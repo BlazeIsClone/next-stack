@@ -5,10 +5,12 @@ import { type InferModel, eq } from "drizzle-orm";
 
 import { db } from "~/database";
 import { users } from "~/database/schema";
-import Hello from "../components/Hello";
+import Settings from "../components/Settings";
 import { SignIn } from "~/components/SignIn";
 import { getSession } from "~/lib/auth/session";
 import { SignOut } from "~/components/SignOut";
+import AuthProvider from "~/components/AuthProvider";
+import AuthUser from "~/components/AuthUser";
 
 export default async function Home() {
   const session = await getSession();
@@ -35,7 +37,10 @@ export default async function Home() {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             {user[0] && <>Welcome User: {user[0]?.name} </>}
           </h1>
-          <Hello />
+          <Settings />
+          <AuthProvider>
+            <AuthUser />
+          </AuthProvider>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-lg bg-slate-800 p-4 text-slate-50 hover:bg-slate-700"

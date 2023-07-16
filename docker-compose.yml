@@ -5,11 +5,7 @@ services:
   mysql:
     image: mariadb:latest
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_password
-      MYSQL_DATABASE: db
+    env_file: .env
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
