@@ -31,10 +31,11 @@ export const authOptions: NextAuthOptions = {
           label: "Password",
           type: "text",
         },
-        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         type User = InferModel<typeof users>;
+
+        if (!credentials) return;
 
         const user: User[] = await db
           .select()
@@ -42,8 +43,12 @@ export const authOptions: NextAuthOptions = {
           .where(eq(users.email, credentials?.email))
           .limit(1);
 
-        if (user.length) {
-          return user[0];
+        if (user[0]) {
+          return {
+            id: user[0].id,
+            name: user[0].name,
+            email: user[0].email,
+          };
         } else {
           await db.insert(users).values({
             id: createId(),
@@ -58,9 +63,14 @@ export const authOptions: NextAuthOptions = {
             .where(eq(users.email, credentials?.email))
             .limit(1);
 
-          const row = rows[0];
-          if (!row) throw new Error("User not found");
-          return row;
+          if (!rows[0]) return;
+
+          return {
+            id: rows[0]?.id,
+            name: rows[0]?.name,
+            email: rows[0]?.email,
+            password: rows[0]?.password,
+          };
         }
       },
     }),
