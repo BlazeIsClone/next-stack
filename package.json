@@ -7,6 +7,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
+    "test": "echo \"Warning: no test specified\" && exit 0",
     "migrate:generate": "drizzle-kit generate:mysql",
     "migrate:push": "drizzle-kit push:mysql",
     "db:show": "drizzle-kit studio"
