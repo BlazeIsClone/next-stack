@@ -1,14 +1,11 @@
 import type { Config } from "drizzle-kit";
+import { env } from "~/env.mjs";
 
 export default {
   schema: "./src/database/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    host: "localhost",
-    user: "db_user",
-    password: "db_password",
-    database: "db",
-    port: 3306,
+    connectionString: `mysql://${env.MYSQL_USER}:${env.MYSQL_PASSWORD}@${env.MYSQL_HOST}/${env.MYSQL_DATABASE}?ssl={"rejectUnauthorized":true}`,
   },
   breakpoints: false,
   driver: "mysql2",

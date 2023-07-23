@@ -21,7 +21,7 @@ export const env = createEnv({
     ),
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     MYSQL_HOST: z.string(),
-    MYSQL_PORT: z.string(),
+    MYSQL_PORT: z.preprocess(Number, z.number()),
     MYSQL_USER: z.string(),
     MYSQL_PASSWORD: z.string(),
     MYSQL_DATABASE: z.string(),
