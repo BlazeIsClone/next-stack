@@ -21,6 +21,7 @@ export const env = createEnv({
     ),
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     MYSQL_HOST: z.string(),
+    MYSQL_PORT: z.string(),
     MYSQL_USER: z.string(),
     MYSQL_PASSWORD: z.string(),
     MYSQL_DATABASE: z.string(),
@@ -46,6 +47,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     MYSQL_HOST: process.env.MYSQL_HOST,
+    MYSQL_PORT: process.env.MYSQL_PORT,
     MYSQL_USER: process.env.MYSQL_USER,
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
     MYSQL_DATABASE: process.env.MYSQL_DATABASE,

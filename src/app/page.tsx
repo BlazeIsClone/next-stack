@@ -17,7 +17,7 @@ export default async function Home() {
 
   let user: InferModel<typeof users>[] = [];
 
-  if (session?.user.name) {
+  if (session?.user?.name) {
     user = await db
       .select()
       .from(users)
