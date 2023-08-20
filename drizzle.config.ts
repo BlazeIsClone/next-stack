@@ -1,16 +1,16 @@
-import type { Config } from "drizzle-kit";
-import { env } from "~/env.mjs";
+import type { Config } from 'drizzle-kit';
+import { env } from '~/utils/env.mjs';
 
 export default {
-  schema: "./src/database/schema.ts",
-  out: "./drizzle",
+  schema: './src/database/schema.ts',
+  out: './drizzle',
   dbCredentials: {
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "nextjs",
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'nextjs',
     port: 3306,
   },
   breakpoints: false,
-  driver: "mysql2",
+  driver: 'mysql2',
 } satisfies Config;

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { env } from "~/env.mjs";
-import { Health } from "~/http/resources/health";
+import { env } from '~/utils/env.mjs';
+import { Health } from '~/http/resources/health';
 
 export default async function Settings() {
   const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/api`);

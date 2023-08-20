@@ -1,6 +1,6 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { createConnection } from "mysql2/promise";
-import { env } from "~/env.mjs";
+import { drizzle } from 'drizzle-orm/mysql2';
+import { createConnection } from 'mysql2/promise';
+import { env } from '~/utils/env.mjs';
 
 let connection;
 

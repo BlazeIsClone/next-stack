@@ -1,25 +1,25 @@
-import { type InferModel, eq } from "drizzle-orm";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import type { AuthOptions } from "next-auth";
-import { db } from "~/database";
-import { users } from "~/database/schema";
-import Credentials from "next-auth/providers/credentials";
-import { env } from "~/env.mjs";
-import { createId } from "@paralleldrive/cuid2";
+import { type InferModel, eq } from 'drizzle-orm';
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
+import type { AuthOptions } from 'next-auth';
+import { db } from '~/database';
+import { users } from '~/database/schema';
+import Credentials from 'next-auth/providers/credentials';
+import { env } from '~/utils/env.mjs';
+import { createId } from '@paralleldrive/cuid2';
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   secret: env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        name: { label: "Name", type: "text" },
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        name: { label: 'Name', type: 'text' },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         type User = InferModel<typeof users>;
