@@ -1,88 +1,64 @@
 import {
-  datetime,
-  index,
   int,
   mysqlTable,
-  text,
+  primaryKey,
   timestamp,
-  uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
+import type { AdapterAccount } from "@auth/core/adapters";
+
+export const users = mysqlTable("user", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  emailVerified: timestamp("emailVerified", {
+    mode: "date",
+    fsp: 3,
+  }).defaultNow(),
+  image: varchar("image", { length: 255 }),
+});
 
 export const accounts = mysqlTable(
-  "accounts",
+  "account",
   {
-    id: varchar("id", { length: 255 }).primaryKey().notNull(),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    type: varchar("type", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: varchar("type", { length: 255 })
+      .$type<AdapterAccount["type"]>()
+      .notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-    access_token: text("access_token"),
-    expires_in: int("expires_in"),
-    id_token: text("id_token"),
-    refresh_token: text("refresh_token"),
-    refresh_token_expires_in: int("refresh_token_expires_in"),
-    scope: varchar("scope", { length: 255 }),
+    refresh_token: varchar("refresh_token", { length: 255 }),
+    access_token: varchar("access_token", { length: 255 }),
+    expires_at: int("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    scope: varchar("scope", { length: 255 }),
+    id_token: varchar("id_token", { length: 255 }),
+    session_state: varchar("session_state", { length: 255 }),
   },
   (account) => ({
-    providerProviderAccountIdIndex: uniqueIndex(
-      "accounts__provider__providerAccountId__idx"
-    ).on(account.provider, account.providerAccountId),
-    userIdIndex: index("accounts__userId__idx").on(account.userId),
+    compoundKey: primaryKey(account.provider, account.providerAccountId),
   })
 );
 
-export const sessions = mysqlTable(
-  "sessions",
-  {
-    id: varchar("id", { length: 255 }).primaryKey().notNull(),
-    sessionToken: varchar("sessionToken", { length: 255 }).notNull(),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    expires: datetime("expires").notNull(),
-    created_at: timestamp("created_at").notNull().defaultNow(),
-    updated_at: timestamp("updated_at").notNull().defaultNow().onUpdateNow(),
-  },
-  (session) => ({
-    sessionTokenIndex: uniqueIndex("sessions__sessionToken__idx").on(
-      session.sessionToken
-    ),
-    userIdIndex: index("sessions__userId__idx").on(session.userId),
-  })
-);
-
-export const users = mysqlTable(
-  "users",
-  {
-    id: varchar("id", { length: 255 }).primaryKey().notNull(),
-    name: varchar("name", { length: 255 }),
-    email: varchar("email", { length: 255 }).notNull(),
-    password: varchar("password", { length: 255 }).notNull(),
-    emailVerified: timestamp("emailVerified"),
-    image: varchar("image", { length: 255 }),
-    created_at: timestamp("created_at").notNull().defaultNow(),
-    updated_at: timestamp("updated_at").notNull().defaultNow().onUpdateNow(),
-  },
-  (user) => ({
-    emailIndex: uniqueIndex("users__email__idx").on(user.email),
-  })
-);
+export const sessions = mysqlTable("session", {
+  sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
 
 export const verificationTokens = mysqlTable(
-  "verification_tokens",
+  "verificationToken",
   {
-    identifier: varchar("identifier", { length: 255 }).primaryKey().notNull(),
+    identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 255 }).notNull(),
-    expires: datetime("expires").notNull(),
-    created_at: timestamp("created_at").notNull().defaultNow(),
-    updated_at: timestamp("updated_at").notNull().defaultNow().onUpdateNow(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (verificationToken) => ({
-    tokenIndex: uniqueIndex("verification_tokens__token__idx").on(
-      verificationToken.token
-    ),
+  (vt) => ({
+    compoundKey: primaryKey(vt.identifier, vt.token),
   })
 );
 

@@ -1,14 +1,15 @@
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { connect } from "@planetscale/database";
+import { drizzle } from "drizzle-orm/mysql2";
+import { createConnection } from "mysql2/promise";
 import { env } from "~/env.mjs";
 
 let connection;
 
 try {
-  connection = connect({
+  connection = await createConnection({
     host: env.MYSQL_HOST,
-    username: env.MYSQL_USER,
+    user: env.MYSQL_USER,
     password: env.MYSQL_PASSWORD,
+    database: env.MYSQL_DATABASE,
   });
 } catch (error) {
   throw new Error(`Failed to establish a database connection.`);

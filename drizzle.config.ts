@@ -5,7 +5,11 @@ export default {
   schema: "./src/database/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    connectionString: `mysql://${env.MYSQL_USER}:${env.MYSQL_PASSWORD}@${env.MYSQL_HOST}/${env.MYSQL_DATABASE}?ssl={"rejectUnauthorized":true}`,
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "nextjs",
+    port: 3306,
   },
   breakpoints: false,
   driver: "mysql2",

@@ -1,13 +1,13 @@
 import { type InferModel, eq } from "drizzle-orm";
-import { DrizzleAdapter } from "./drizzle-adapter";
-import type { NextAuthOptions } from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import type { AuthOptions } from "next-auth";
 import { db } from "~/database";
 import { users } from "~/database/schema";
 import Credentials from "next-auth/providers/credentials";
 import { env } from "~/env.mjs";
 import { createId } from "@paralleldrive/cuid2";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
   session: {
     strategy: "jwt",
@@ -17,25 +17,14 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: "Credentials",
       credentials: {
-        name: {
-          label: "Name",
-          type: "text",
-          placeholder: "john",
-        },
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "sandev123@gmail.com",
-        },
-        password: {
-          label: "Password",
-          type: "text",
-        },
+        name: { label: "Name", type: "text" },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         type User = InferModel<typeof users>;
 
-        if (!credentials) return;
+        if (!credentials) return null;
 
         const user: User[] = await db
           .select()
@@ -52,9 +41,8 @@ export const authOptions: NextAuthOptions = {
         } else {
           await db.insert(users).values({
             id: createId(),
-            email: credentials?.email,
-            name: credentials?.name,
-            password: credentials?.password,
+            name: credentials.name,
+            email: credentials.email,
           });
 
           const rows: User[] = await db
@@ -63,13 +51,12 @@ export const authOptions: NextAuthOptions = {
             .where(eq(users.email, credentials?.email))
             .limit(1);
 
-          if (!rows[0]) return;
+          if (!rows[0]) return null;
 
           return {
-            id: rows[0]?.id,
-            name: rows[0]?.name,
-            email: rows[0]?.email,
-            password: rows[0]?.password,
+            id: rows[0].id,
+            name: rows[0].name,
+            email: rows[0].email,
           };
         }
       },

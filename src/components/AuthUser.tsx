@@ -9,7 +9,7 @@ export default function AuthUser() {
     <div>
       <h3 className="text-sm tracking-tight text-white sm:text-[2rem]">
         {session.status === "authenticated" ? (
-          <>User: {session.data.user.name}</>
+          <>User: {session.data.user?.name}</>
         ) : (
           <>{session.status}</>
         )}

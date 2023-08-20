@@ -8,13 +8,13 @@
     "lint": "next lint",
     "start": "next start",
     "test": "echo \"Warning: no test specified\" && exit 0",
-    "migrate:generate": "drizzle-kit generate:mysql",
-    "migrate:push": "drizzle-kit push:mysql",
+    "db:generate": "drizzle-kit generate:mysql",
+    "db:push": "drizzle-kit push:mysql",
     "db:show": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^0.3.2",
     "@paralleldrive/cuid2": "^2.2.1",
-    "@planetscale/database": "^1.8.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.7",
     "@trpc/client": "^10.26.0",
