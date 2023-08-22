@@ -4,15 +4,15 @@ A bootstrap NextJS scaffolding for building full stack applications that are foc
 
 ## Roadmap
 
-- [] Authentication
-- [] Authorization
-- [] Logging
-- [] Notifications (mail)
-- [] Routing
-- [] Storage (s3, sftp)
-- [] Validation
-- [] Database Seeders
-- [] Models
+- [ ] Authentication
+- [ ] Authorization
+- [ ] Logging
+- [ ] Notifications (mail)
+- [ ] Routing
+- [ ] Storage (s3, sftp)
+- [ ] Validation
+- [ ] Database Seeders
+- [ ] Models
 
 ### Why The NextS tack
 
