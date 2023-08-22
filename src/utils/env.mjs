@@ -25,6 +25,12 @@ export const env = createEnv({
     MYSQL_USER: z.string(),
     MYSQL_PASSWORD: z.string(),
     MYSQL_DATABASE: z.string(),
+
+    AWS_ENDPOINT: z.string().url(),
+    AWS_ACCESS_KEY_ID: z.string(),
+    AWS_SECRET_ACCESS_KEY: z.string(),
+    AWS_DEFAULT_REGION: z.string(),
+    AWS_BUCKET: z.string(),
   },
 
   /**
@@ -51,6 +57,12 @@ export const env = createEnv({
     MYSQL_USER: process.env.MYSQL_USER,
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
     MYSQL_DATABASE: process.env.MYSQL_DATABASE,
+
+    AWS_ENDPOINT: process.env.AWS_ENDPOINT,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    AWS_DEFAULT_REGION: process.env.AWS_DEFAULT_REGION,
+    AWS_BUCKET: process.env.AWS_BUCKET,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
