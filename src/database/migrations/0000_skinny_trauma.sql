@@ -29,7 +29,7 @@ CREATE TABLE `settings` (
 
 CREATE TABLE `user` (
 	`id` varchar(255) NOT NULL,
-	`name` varchar(255),
+	`name` varchar(255) NOT NULL,
 	`email` varchar(255) NOT NULL,
 	`emailVerified` timestamp(3) DEFAULT (now()),
 	`image` varchar(255),

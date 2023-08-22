@@ -3,7 +3,7 @@ import { env } from '~/utils/env.mjs';
 
 export default {
   schema: './src/database/schema.ts',
-  out: './drizzle',
+  out: './src/database/migrations',
   dbCredentials: {
     host: 'localhost',
     user: 'root',
