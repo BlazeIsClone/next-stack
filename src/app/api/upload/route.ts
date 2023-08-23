@@ -1,36 +1,29 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
-import { env } from '~/utils/env.mjs';
+import { Storage } from '~/bootstrap/storage/storage';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const client = new S3Client({
-    endpoint: env.AWS_ENDPOINT,
-    credentials: {
-      accessKeyId: env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-    },
-    region: env.AWS_DEFAULT_REGION,
-  });
-
   const data = await req.formData();
   const file: File | null = data.get('file') as unknown as File;
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const command = new PutObjectCommand({
-    Bucket: env.AWS_BUCKET,
-    Key: data.get('file').name,
-    Body: buffer,
-  });
+  const storageBuilder = Storage.disk('s3');
+  const url = await storageBuilder.put(data.get('file').name, buffer).execute();
 
-  try {
-    const response = await client.send(command);
-    return NextResponse.json({ message: response });
-  } catch (err) {
-    return NextResponse.json({ message: err });
+  if (!url.status) {
+    return NextResponse.json({ message: url.error });
   }
+
+  const payload = await storageBuilder
+    .put(data.get('file').name, buffer)
+    .getUrl();
+
+  return NextResponse.json({
+    message: url.response,
+    payload,
+  });
 };
 
 export { handler as POST };

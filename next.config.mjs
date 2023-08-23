@@ -10,6 +10,17 @@ const config = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'central.objects-us-east-1.dream.io',
+        port: '',
+        pathname: '/central/**',
+      }
+    ],
+    domains: ['central.objects-us-east-1.dream.io']
+  }
 };
 
 export default config;

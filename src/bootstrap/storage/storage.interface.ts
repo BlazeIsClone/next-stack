@@ -1,4 +1,8 @@
 export interface StorageInterface {
-  get(): void;
-  put(): void;
+  put(
+    fileName: string,
+    buffer: ArrayBuffer
+  ): Promise<{ status: boolean; response?: string; error?: string }>;
+
+  getUrl(fileName: string): string;
 }
